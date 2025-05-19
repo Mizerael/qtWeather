@@ -1,8 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "circularBar.h"
 #include "qlabel.h"
-#include "qprogressbar.h"
 #include "qpushbutton.h"
 #include "qtimer.h"
 #include "qtmetamacros.h"
@@ -20,14 +20,14 @@ private slots:
   void update();
 
 private:
-  QProgressBar *humidity;
-  QProgressBar *pressure;
-  QProgressBar *temperature;
+  circularBar *humidity;
+  circularBar *pressure;
+  circularBar *temperature;
   QLabel *date;
   QLabel *time;
   QLabel *location;
   QPushButton *journal;
-  QTimer *timer;
+  QTimer timer;
   bool is_exit = false;
 };
 

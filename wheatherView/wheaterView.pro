@@ -8,7 +8,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17 
 
-HEADERS += window.h
+HEADERS += window.h \
+           circularBar.h
 
 SOURCES += main.cpp \
-           window.cpp
+           window.cpp \
+           circularBar.cpp
