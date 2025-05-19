@@ -1,3 +1,4 @@
-wheaterView
-*.o
+build
 .qmake.stash
+.cache
+Makefile
