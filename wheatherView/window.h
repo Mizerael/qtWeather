@@ -1,12 +1,12 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "circularBar.h"
 #include "qlabel.h"
 #include "qpushbutton.h"
 #include "qtimer.h"
 #include "qtmetamacros.h"
 #include "qwidget.h"
+#include "weatherWidget.h"
 
 class mainWindow : public QWidget {
   Q_OBJECT
@@ -20,9 +20,9 @@ private slots:
   void update();
 
 private:
-  circularBar *humidity;
-  circularBar *pressure;
-  circularBar *temperature;
+  wheatherWidget *humidity;
+  wheatherWidget *pressure;
+  wheatherWidget *temperature;
   QLabel *date;
   QLabel *time;
   QLabel *location;

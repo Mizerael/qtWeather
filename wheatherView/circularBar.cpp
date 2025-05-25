@@ -1,4 +1,5 @@
 #include "circularBar.h"
+#include "qcontainerfwd.h"
 #include "qevent.h"
 #include "qicon.h"
 #include "qnamespace.h"
@@ -6,15 +7,38 @@
 #include "qpainter.h"
 #include "qwidget.h"
 
-circularBar::circularBar(QString label, QString units, QWidget *parent)
-    : QWidget(parent) {
-  this->label = label;
-  this->units = units;
-  this->setMinimumSize(140, 140);
+circularBar::circularBar(int min, int max, QWidget *parent) : QWidget(parent) {
+  this->min = min;
+  this->max = max;
+  this->delta = 0.0;
+  this->value = INT_MIN;
+  this->actual_color = &this->empty_color;
+  this->text_color = &this->empty_color;
+
+  this->setMinimumSize(60, 60);
 }
 
-void circularBar::set_value(double val) {
-  this->value = val;
+void circularBar::set_min(int val) { this->min = val; }
+void circularBar::set_max(int val) { this->max = val; }
+
+void circularBar::set_value(int val) {
+  if ((val > this->max) || (val < this->min)) {
+    this->value = INT_MIN;
+    this->delta = 0;
+    this->actual_color = &this->empty_color;
+    this->text_color = &this->empty_color;
+  } else {
+    this->value = val;
+    this->delta = (this->value - this->min) * 1.0 / (max - min);
+    this->text_color = &this->white;
+    if (this->delta < 0.1) {
+      this->actual_color = &this->low_color;
+    } else if (this->delta > 0.9) {
+      this->actual_color = &this->top_color;
+    } else {
+      this->actual_color = &this->mid_color;
+    }
+  }
   this->update();
 }
 
@@ -23,9 +47,7 @@ void circularBar::paintEvent(QPaintEvent *) {
   paint.setRenderHint(QPainter::Antialiasing);
   int line_width = 8;
 
-  QColor bg_color("#394955");
-  QColor fg_color("#d4d4d4");
-  paint.fillRect(this->rect(), bg_color);
+  paint.fillRect(this->rect(), this->bg_color);
 
   int side =
       (this->width() < this->height() ? this->width() : this->height()) - 30;
@@ -34,19 +56,19 @@ void circularBar::paintEvent(QPaintEvent *) {
            (this->height() - side) / 2.0 + line_width, side - 2 * line_width,
            side - 2 * line_width);
 
-  QPen pen(QColor(80, 80, 80), line_width);
+  QPen pen(this->empty_color, line_width);
   paint.setPen(pen);
   paint.drawArc(r, 0, 16 * 360);
 
-  pen.setColor(fg_color);
+  pen.setColor(*this->actual_color);
   paint.setPen(pen);
-  int angle_span = static_cast<int>(16 * 360 * this->value);
+  int angle_span = static_cast<int>(16 * 360 * this->delta);
   paint.drawArc(r, 90 * 16, -angle_span);
 
-  QRectF label_rect = r.adjusted(0, side * 0.08, 0, -side * 0.75);
-  paint.setPen(fg_color);
-  paint.drawText(label_rect, Qt::AlignHCenter | Qt::AlignTop, this->label);
-
-  QString val_str = QString::number(int(this->value * 100)) + " " + this->units;
-  paint.drawText(this->rect(), Qt::AlignCenter, val_str);
+  paint.setPen(*this->text_color);
+  if (this->value == INT_MIN) {
+    paint.drawText(this->rect(), Qt::AlignCenter, "---");
+  } else {
+    paint.drawText(this->rect(), Qt::AlignCenter, QString::number(this->value));
+  }
 }

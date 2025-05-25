@@ -1,10 +1,8 @@
 #include "window.h"
-#include "circularBar.h"
 #include "qboxlayout.h"
 #include "qdatetime.h"
 #include "qevent.h"
 #include "qfont.h"
-#include "qframe.h"
 #include "qlabel.h"
 #include "qlocale.h"
 #include "qmessagebox.h"
@@ -12,6 +10,7 @@
 #include "qpushbutton.h"
 #include "qtimer.h"
 #include "qwidget.h"
+#include "weatherWidget.h"
 
 mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
 
@@ -40,14 +39,21 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
   top_layout->addWidget(this->time);
   top_layout->addWidget(this->location);
 
-  this->humidity = new circularBar("Влажность", "%");
-  this->humidity->set_value(0.75);
+  this->humidity = new wheatherWidget("Влажность", "%");
+  this->humidity->update_circular_min(0);
+  this->humidity->update_circular_max(100);
+  this->humidity->update_circular_state(50);
 
-  this->pressure = new circularBar("Давление", "мм");
-  this->pressure->set_value(0.5);
+  this->pressure = new wheatherWidget("Давление", "мм");
+  this->pressure->update_circular_min(600);
+  this->pressure->update_circular_max(800);
+  this->pressure->update_circular_state(760);
 
-  this->temperature = new circularBar("Температура", "C");
-  this->temperature->set_value(0.3);
+  this->temperature = new wheatherWidget("Температура", "C");
+
+  this->temperature->update_circular_min(-50);
+  this->temperature->update_circular_max(50);
+  this->temperature->update_circular_state(20);
 
   QHBoxLayout *bars = new QHBoxLayout;
   bars->addWidget(this->humidity);
