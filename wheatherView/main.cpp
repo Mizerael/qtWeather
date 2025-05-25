@@ -1,11 +1,17 @@
+#include "qapplication.h"
+#include "qmessagebox.h"
+#include "qsharedmemory.h"
 #include "window.h"
-#include <QApplication>
-#include <QPushButton>
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-
-  mainWindow window;
-  window.show();
-  return app.exec();
+  QSharedMemory shared_mem("aboba");
+  if (!shared_mem.create(1)) {
+    QMessageBox::warning(nullptr, "Приложение уже запущено",
+                         "Приложение уже запущено.");
+  } else {
+    mainWindow window;
+    window.show();
+    return app.exec();
+  }
 }

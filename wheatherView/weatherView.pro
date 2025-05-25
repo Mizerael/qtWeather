@@ -11,11 +11,11 @@ CONFIG += c++17
 HEADERS += window.h \
            circularBar.h \
            weatherWidget.h \
-           journal.h
+           journal.h \
 
 SOURCES += main.cpp \
            window.cpp \
            circularBar.cpp \
            weatherWidget.cpp \
-           journal.cpp
+           journal.cpp \
 
