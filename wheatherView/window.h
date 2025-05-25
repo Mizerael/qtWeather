@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "journal.h"
 #include "qlabel.h"
 #include "qpushbutton.h"
 #include "qtimer.h"
@@ -12,6 +13,9 @@ class mainWindow : public QWidget {
   Q_OBJECT
 public:
   explicit mainWindow(QWidget *parent = 0);
+  void connectionLost();
+  void connectionRestore();
+  void manualChanges();
 
 protected:
   void closeEvent(QCloseEvent *event) override;
@@ -26,7 +30,8 @@ private:
   QLabel *date;
   QLabel *time;
   QLabel *location;
-  QPushButton *journal;
+  journal *journal_window;
+  QPushButton *journal_btn;
   QTimer timer;
   bool is_exit = false;
 };

@@ -1,5 +1,7 @@
 #include "window.h"
+#include "journal.h"
 #include "qboxlayout.h"
+#include "qcontainerfwd.h"
 #include "qdatetime.h"
 #include "qevent.h"
 #include "qfont.h"
@@ -24,15 +26,29 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
 
   this->date = new QLabel(that_moment.toString("dd.MM.yyyy"));
   this->date->setAlignment(Qt::AlignCenter);
+  this->date->setMaximumSize(QSize(this->width() / 2, 50));
+  this->date->setStyleSheet(
+      "background-color: #444444;border: 2px solid #647d89;");
+  this->date->setFont(font);
 
   this->time = new QLabel(that_moment.toString("hh:mm:ss"));
   this->time->setAlignment(Qt::AlignCenter);
+  this->time->setMaximumSize(QSize(this->width() / 2, 50));
+  this->time->setStyleSheet(
+      "background-color: #444444;border: 2px solid #647d89;");
+  this->time->setFont(font);
 
   this->location = new QLabel("Санкт-Петербург");
   this->location->setAlignment(Qt::AlignCenter);
+  this->location->setMaximumSize(QSize(this->width() / 2, 50));
+  this->location->setStyleSheet(
+      "background-color: #444444;border: 2px solid #647d89;");
+  this->location->setFont(font);
 
-  this->journal = new QPushButton("Журнал");
-  this->journal->setStyleSheet("border: 2px solid #d4d4d4;");
+  this->journal_btn = new QPushButton("Журнал");
+  this->journal_btn->setMaximumSize(QSize(this->width() / 2, 50));
+
+  this->journal_window = new journal(this);
 
   QHBoxLayout *top_layout = new QHBoxLayout;
   top_layout->addWidget(this->date);
@@ -60,15 +76,26 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
   bars->addWidget(this->pressure);
   bars->addWidget(this->temperature);
 
+  QHBoxLayout *buttons = new QHBoxLayout;
+  buttons->addWidget(this->journal_btn, Qt::AlignCenter | Qt::AlignTop);
+
   QVBoxLayout *maybe_its_works_normaly = new QVBoxLayout;
   maybe_its_works_normaly->addLayout(bars);
+  maybe_its_works_normaly->addSpacing(5);
   maybe_its_works_normaly->addLayout(top_layout);
+  maybe_its_works_normaly->addLayout(buttons);
 
   this->setLayout(maybe_its_works_normaly);
   this->resize(600, 400);
 
   this->connect(&this->timer, &QTimer::timeout, this, &mainWindow::update);
   this->timer.start(1000);
+
+  this->connect(this->journal_btn, &QPushButton::clicked, this, [this]() {
+    journal_window->show();
+    journal_window->raise();
+    journal_window->activateWindow();
+  });
 }
 
 void mainWindow::closeEvent(QCloseEvent *event) {
@@ -95,6 +122,20 @@ void mainWindow::closeEvent(QCloseEvent *event) {
   } else {
     event->accept();
   }
+};
+
+void mainWindow::connectionLost() {
+  this->journal_window->add_event(
+      "Потеря соединения с <<Управление метеоданными>>");
+};
+
+void mainWindow::connectionRestore() {
+  this->journal_window->add_event(
+      "Соединение с <<Управление метеоданными>> востановлено");
+};
+
+void mainWindow::manualChanges() {
+  this->journal_window->add_event("Произведено ручное изменение параметров");
 };
 
 void mainWindow::update() {

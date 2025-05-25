@@ -12,6 +12,7 @@ wheatherWidget::wheatherWidget(const QString &label, QString units,
   this->units = units;
   this->circular_bar = new circularBar();
   this->setMinimumSize(200, 200);
+  this->setMaximumSize(300, 300);
   this->setTitle(QString::asprintf("%s,%s", this->label.toUtf8().constData(),
                                    this->units.toUtf8().constData()));
   this->setStyleSheet("QGroupBox {"

@@ -10,10 +10,12 @@ CONFIG += c++17
 
 HEADERS += window.h \
            circularBar.h \
-           weatherWidget.h
+           weatherWidget.h \
+           journal.h
 
 SOURCES += main.cpp \
            window.cpp \
            circularBar.cpp \
-           weatherWidget.cpp
+           weatherWidget.cpp \
+           journal.cpp
 
