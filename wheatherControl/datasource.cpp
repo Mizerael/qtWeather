@@ -19,6 +19,7 @@ dataSourceWidget::dataSourceWidget(QWidget *parent) : QGroupBox(parent) {
                       "  padding: 0 10px;"
                       "}");
   QFont font("Roboto", 22);
+  this->setFont(font);
 
   this->meteo_label = new QLabel("Источник метео");
   this->meteo_label->setAlignment(Qt::AlignCenter);
@@ -27,7 +28,7 @@ dataSourceWidget::dataSourceWidget(QWidget *parent) : QGroupBox(parent) {
   this->meteo_list = new QComboBox();
   this->meteo_list->addItems({"Оператор", "Локальный файл", "Онлайн сервис"});
 
-  this->time_label = new QLabel("Источник метео");
+  this->time_label = new QLabel("Источник времени");
   this->time_label->setAlignment(Qt::AlignCenter);
   this->time_label->setFont(font);
 

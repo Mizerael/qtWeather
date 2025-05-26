@@ -4,6 +4,7 @@
 #include "datasource.h"
 #include "qtmetamacros.h"
 #include "qwidget.h"
+#include "settingsWidget.h"
 class controlWindow : public QWidget {
   Q_OBJECT
 public:
@@ -17,5 +18,6 @@ private slots:
 private:
   bool is_exit = false;
   dataSourceWidget *data_source;
+  settingsWidget *settings_widget;
 };
 #endif // !CONTROLWINDOW_H

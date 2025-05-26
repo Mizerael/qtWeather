@@ -5,16 +5,19 @@
 #include "qevent.h"
 #include "qmessagebox.h"
 #include "qwidget.h"
+#include "settingsWidget.h"
 
 controlWindow::controlWindow(QWidget *parent) : QWidget(parent) {
   this->setWindowTitle("Управление метеоданными");
   this->setStyleSheet("background-color : #394955; color: #d4d4d4;");
 
   this->data_source = new dataSourceWidget();
+  this->settings_widget = new settingsWidget();
 
   QVBoxLayout *layout = new QVBoxLayout();
 
   layout->addWidget(this->data_source);
+  layout->addWidget(this->settings_widget);
 
   this->setLayout(layout);
 };

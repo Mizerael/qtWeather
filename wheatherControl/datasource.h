@@ -12,15 +12,14 @@ class dataSourceWidget : public QGroupBox {
   Q_OBJECT
 public:
   explicit dataSourceWidget(QWidget *parent = 0);
+private slots:
+  // void send_data();
 
 private:
   QComboBox *meteo_list;
   QLabel *meteo_label;
   QComboBox *time_list;
   QLabel *time_label;
-
-  QString *selected_meteo;
-  QString *selected_time;
 };
 
 #endif // !DATASOURCE_H
