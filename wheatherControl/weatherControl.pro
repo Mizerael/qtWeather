@@ -8,10 +8,14 @@ CONFIG += c++17
 
 HEADERS += window.h \
            datasource.h \
-           settingsWidget.h
+           settingsWidget.h \
+           dateTimeWidget.h \
+           locationWidget.h
 
 SOURCES += main.cpp \
            window.cpp \
            datasource.cpp \
-           settingsWidget.cpp
+           settingsWidget.cpp \
+           dateTimeWidget.cpp \
+           locationWidget.cpp
 

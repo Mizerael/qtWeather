@@ -1,5 +1,7 @@
 #include "window.h"
 #include "datasource.h"
+#include "dateTimeWidget.h"
+#include "locationWidget.h"
 #include "qabstractbutton.h"
 #include "qboxlayout.h"
 #include "qevent.h"
@@ -13,11 +15,15 @@ controlWindow::controlWindow(QWidget *parent) : QWidget(parent) {
 
   this->data_source = new dataSourceWidget();
   this->settings_widget = new settingsWidget();
+  this->datetime_widget = new dateTimeWidget();
+  this->location_widget = new locationWidget();
 
   QVBoxLayout *layout = new QVBoxLayout();
 
   layout->addWidget(this->data_source);
   layout->addWidget(this->settings_widget);
+  layout->addWidget(this->datetime_widget);
+  layout->addWidget(this->location_widget);
 
   this->setLayout(layout);
 };

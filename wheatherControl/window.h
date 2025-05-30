@@ -2,6 +2,8 @@
 #define CONTROLWINDOW_H
 
 #include "datasource.h"
+#include "dateTimeWidget.h"
+#include "locationWidget.h"
 #include "qtmetamacros.h"
 #include "qwidget.h"
 #include "settingsWidget.h"
@@ -19,5 +21,7 @@ private:
   bool is_exit = false;
   dataSourceWidget *data_source;
   settingsWidget *settings_widget;
+  dateTimeWidget *datetime_widget;
+  locationWidget *location_widget;
 };
 #endif // !CONTROLWINDOW_H
