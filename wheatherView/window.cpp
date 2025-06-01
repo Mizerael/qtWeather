@@ -12,6 +12,7 @@
 #include "qpushbutton.h"
 #include "qtimer.h"
 #include "qwidget.h"
+#include "weatherServer.h"
 #include "weatherWidget.h"
 
 mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
@@ -88,6 +89,20 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
   this->setLayout(maybe_its_works_normaly);
   this->resize(600, 400);
 
+  this->server = new weatherServer();
+  connect(server, &weatherServer::parametrs_update, this,
+          [this](int humidity, int temperature, int pressure) {
+            this->humidity->update_circular_state(humidity);
+            this->temperature->update_circular_state(temperature);
+            this->pressure->update_circular_state(pressure);
+            this->manualChanges();
+          });
+
+  connect(server, &weatherServer::connection_lost, this,
+          [this]() { this->connectionLost(); });
+
+  connect(server, &weatherServer::connetction_restore, this,
+          [this]() { this->connectionRestore(); });
   this->connect(&this->timer, &QTimer::timeout, this, &mainWindow::update);
   this->timer.start(1000);
 

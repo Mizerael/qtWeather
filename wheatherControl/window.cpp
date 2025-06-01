@@ -6,8 +6,11 @@
 #include "qboxlayout.h"
 #include "qevent.h"
 #include "qmessagebox.h"
+#include "qpushbutton.h"
+#include "qurl.h"
 #include "qwidget.h"
 #include "settingsWidget.h"
+#include "weatherClient.h"
 
 controlWindow::controlWindow(QWidget *parent) : QWidget(parent) {
   this->setWindowTitle("Управление метеоданными");
@@ -26,7 +29,21 @@ controlWindow::controlWindow(QWidget *parent) : QWidget(parent) {
   layout->addWidget(this->location_widget);
 
   this->setLayout(layout);
+
+  this->client = new weatherClient(QUrl("ws://127.0.0.1:4269"), this);
+
+  connect(this->settings_widget->send_button, &QPushButton::clicked, this,
+          &controlWindow::send_settings);
+  this->client->sendParameters(this->settings_widget->get_humidity(),
+                               this->settings_widget->get_temperature(),
+                               this->settings_widget->get_pressure());
 };
+
+void controlWindow::send_settings() {
+  this->client->sendParameters(this->settings_widget->get_humidity(),
+                               this->settings_widget->get_temperature(),
+                               this->settings_widget->get_pressure());
+}
 
 void controlWindow::closeEvent(QCloseEvent *event) {
   if (!this->is_exit) {
@@ -45,6 +62,7 @@ void controlWindow::closeEvent(QCloseEvent *event) {
     int selected = msg_box.exec();
     if (selected == QMessageBox::Yes) {
       this->is_exit = true;
+      this->client->connectionLost();
       event->accept();
     } else {
       event->ignore();

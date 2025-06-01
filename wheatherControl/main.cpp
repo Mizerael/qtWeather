@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
-  QSharedMemory shared_mem("aboba");
+  QSharedMemory shared_mem("aboba_control");
   if (!shared_mem.create(1)) {
     QMessageBox::warning(nullptr, "Приложение уже запущено",
                          "Приложение уже запущено.");

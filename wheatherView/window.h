@@ -7,6 +7,7 @@
 #include "qtimer.h"
 #include "qtmetamacros.h"
 #include "qwidget.h"
+#include "weatherServer.h"
 #include "weatherWidget.h"
 
 class mainWindow : public QWidget {
@@ -34,6 +35,7 @@ private:
   QPushButton *journal_btn;
   QTimer timer;
   bool is_exit = false;
+  weatherServer *server;
 };
 
 #endif // WINDOW_H

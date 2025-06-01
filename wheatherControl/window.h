@@ -7,6 +7,7 @@
 #include "qtmetamacros.h"
 #include "qwidget.h"
 #include "settingsWidget.h"
+#include "weatherClient.h"
 class controlWindow : public QWidget {
   Q_OBJECT
 public:
@@ -23,5 +24,8 @@ private:
   settingsWidget *settings_widget;
   dateTimeWidget *datetime_widget;
   locationWidget *location_widget;
+  weatherClient *client;
+
+  void send_settings();
 };
 #endif // !CONTROLWINDOW_H

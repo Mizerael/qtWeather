@@ -12,6 +12,10 @@ class settingsWidget : public QGroupBox {
   Q_OBJECT
 public:
   explicit settingsWidget(QWidget *parent = 0);
+  int get_humidity();
+  int get_temperature();
+  int get_pressure();
+  QPushButton *send_button;
 
 private:
   QLabel *humidity_label;
@@ -20,7 +24,6 @@ private:
   QSpinBox *humidity_spin;
   QSpinBox *temperature_spin;
   QSpinBox *pressure_spin;
-  QPushButton *send_button;
 };
 
 #endif // !SETTINGSWIDGET_H

@@ -73,3 +73,9 @@ settingsWidget::settingsWidget(QWidget *parent) : QGroupBox(parent) {
   layout->addLayout(buttons);
   this->setLayout(layout);
 };
+
+int settingsWidget::get_humidity() { return this->humidity_spin->value(); };
+int settingsWidget::get_temperature() {
+  return this->temperature_spin->value();
+};
+int settingsWidget::get_pressure() { return this->pressure_spin->value(); };
