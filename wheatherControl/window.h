@@ -27,5 +27,6 @@ private:
   weatherClient *client;
 
   void send_settings();
+  void send_date();
 };
 #endif // !CONTROLWINDOW_H

@@ -2,6 +2,7 @@
 #include "qjsondocument.h"
 #include "qjsonobject.h"
 #include "qobject.h"
+#include "qtmetamacros.h"
 #include "qwebsocket.h"
 weatherServer::weatherServer(int port, QObject *parent) : QObject(parent) {
   m_server = new QWebSocketServer(QStringLiteral("Weather Server"),
@@ -25,10 +26,17 @@ void weatherServer::new_message(QString message) {
   QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
   if (doc.isObject()) {
     QJsonObject j_obj = doc.object();
-    int humidity = j_obj.value("humidity").toInt();
-    int temperature = j_obj.value("temperature").toInt();
-    int pressure = j_obj.value("pressure").toInt();
-    emit parametrs_update(humidity, temperature, pressure);
+    if (j_obj.value("type") == "params") {
+      int humidity = j_obj.value("humidity").toInt();
+      int temperature = j_obj.value("temperature").toInt();
+      int pressure = j_obj.value("pressure").toInt();
+      emit parametrs_update(humidity, temperature, pressure);
+    } else if (j_obj.value("type") == "date") {
+      QString date = j_obj.value("date").toString();
+
+      QString time = j_obj.value("time").toString();
+      emit date_update(date, time);
+    }
   }
 }
 

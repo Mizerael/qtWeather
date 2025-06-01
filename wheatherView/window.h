@@ -21,9 +21,6 @@ public:
 protected:
   void closeEvent(QCloseEvent *event) override;
 
-private slots:
-  void update();
-
 private:
   wheatherWidget *humidity;
   wheatherWidget *pressure;

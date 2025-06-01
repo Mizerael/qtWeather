@@ -98,13 +98,17 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent) {
             this->manualChanges();
           });
 
+  connect(server, &weatherServer::date_update, this,
+          [this](QString date, QString time) {
+            this->date->setText(date);
+            this->date->setText(date);
+            this->manualChanges();
+          });
   connect(server, &weatherServer::connection_lost, this,
           [this]() { this->connectionLost(); });
 
   connect(server, &weatherServer::connetction_restore, this,
           [this]() { this->connectionRestore(); });
-  this->connect(&this->timer, &QTimer::timeout, this, &mainWindow::update);
-  this->timer.start(1000);
 
   this->connect(this->journal_btn, &QPushButton::clicked, this, [this]() {
     journal_window->show();
@@ -151,11 +155,4 @@ void mainWindow::connectionRestore() {
 
 void mainWindow::manualChanges() {
   this->journal_window->add_event("Произведено ручное изменение параметров");
-};
-
-void mainWindow::update() {
-
-  QDateTime that_moment = QDateTime::currentDateTime();
-  this->time->setText(that_moment.toString("hh:mm:ss"));
-  this->date->setText(that_moment.toString("dd.MM.yyyy"));
 };

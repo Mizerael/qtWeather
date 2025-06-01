@@ -11,6 +11,7 @@ public:
   explicit weatherClient(const QUrl &url, QObject *parent = nullptr);
 
   void sendParameters(int humidity, int temperature, int pressure);
+  void sendParameters(QString date, QString time);
 
 signals:
   void connectionLost();

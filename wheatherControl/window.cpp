@@ -34,6 +34,8 @@ controlWindow::controlWindow(QWidget *parent) : QWidget(parent) {
 
   connect(this->settings_widget->send_button, &QPushButton::clicked, this,
           &controlWindow::send_settings);
+  connect(this->datetime_widget->send_button, &QPushButton::clicked, this,
+          &controlWindow::send_date);
   this->client->sendParameters(this->settings_widget->get_humidity(),
                                this->settings_widget->get_temperature(),
                                this->settings_widget->get_pressure());
@@ -43,8 +45,12 @@ void controlWindow::send_settings() {
   this->client->sendParameters(this->settings_widget->get_humidity(),
                                this->settings_widget->get_temperature(),
                                this->settings_widget->get_pressure());
-}
+};
 
+void controlWindow::send_date() {
+  this->client->sendParameters(this->datetime_widget->get_date(),
+                               this->datetime_widget->get_time());
+};
 void controlWindow::closeEvent(QCloseEvent *event) {
   if (!this->is_exit) {
     QMessageBox msg_box(this);

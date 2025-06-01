@@ -14,9 +14,19 @@ weatherClient::weatherClient(const QUrl &url, QObject *parent)
 void weatherClient::sendParameters(int humidity, int temperature,
                                    int pressure) {
   QJsonObject j_obj;
+  j_obj["type"] = "params";
   j_obj["humidity"] = humidity;
   j_obj["temperature"] = temperature;
   j_obj["pressure"] = pressure;
+  QJsonDocument doc(j_obj);
+  m_webSocket.sendTextMessage(
+      QString::fromUtf8(doc.toJson(QJsonDocument::Compact)));
+}
+void weatherClient::sendParameters(QString date, QString time) {
+  QJsonObject j_obj;
+  j_obj["type"] = "date";
+  j_obj["date"] = date;
+  j_obj["time"] = time;
   QJsonDocument doc(j_obj);
   m_webSocket.sendTextMessage(
       QString::fromUtf8(doc.toJson(QJsonDocument::Compact)));

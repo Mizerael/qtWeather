@@ -12,6 +12,7 @@ public:
   explicit weatherServer(int port = 4269, QObject *parent = 0);
 signals:
   void parametrs_update(int humidiry, int temperature, int pressure);
+  void date_update(QString date, QString time);
   void connection_lost();
   void connetction_restore();
 private slots:
